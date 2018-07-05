@@ -1,87 +1,165 @@
 {
-   "rabbit_version":"3.5.7",
+   "rabbit_version":"3.7.5",
    "users":[
       {
-         "name":"guest",
-         "password_hash":"93eSRQwv65GIdi8O75BhZPQ65dQ=",
+         "name":"logs",
+         "password_hash":"QZBIeeiNeMYWs0ImlHAa6kyxGxQTzLASnrp8399xHoYVcPjE",
+         "hashing_algorithm":"rabbit_password_hashing_sha256",
+         "tags":""
+      },
+      {
+         "name":"yuks",
+         "password_hash":"x7RI3fxKWvyAPkPeD2FaZZIAPFv6lLTlpd1nJVD2H5QGwSi0",
+         "hashing_algorithm":"rabbit_password_hashing_sha256",
          "tags":"administrator"
       }
    ],
    "vhosts":[
+      {
+         "name":"logs"
+      },
       {
          "name":"/"
       }
    ],
    "permissions":[
       {
-         "user":"guest",
+         "user":"logs",
+         "vhost":"logs",
+         "configure":"(.-api|dns-checker)",
+         "write":"(.-api|dns-checker)",
+         "read":"(.-api|dns-checker)"
+      },
+      {
+         "user":"yuks",
+         "vhost":"logs",
+         "configure":".*",
+         "write":".*",
+         "read":".*"
+      },
+      {
+         "user":"yuks",
          "vhost":"/",
          "configure":".*",
          "write":".*",
          "read":".*"
       }
    ],
+   "topic_permissions":[
+
+   ],
    "parameters":[
+      {
+         "value":[
+
+         ],
+         "vhost":"logs",
+         "component":"vhost-limits",
+         "name":"limits"
+      }
+   ],
+   "global_parameters":[
+      {
+         "name":"cluster_name",
+         "value":"rabbit@ae30f649f362"
+      }
    ],
    "policies":[
+
    ],
    "queues":[
       {
-         "name":"logstash-serilog",
-         "vhost":"/",
+         "name":"advokat-api",
+         "vhost":"logs",
          "durable":true,
          "auto_delete":false,
          "arguments":{
+
          }
       },
       {
-         "name":"logstash-yuks-1",
-         "vhost":"/",
+         "name":"dns-checker",
+         "vhost":"logs",
          "durable":true,
          "auto_delete":false,
          "arguments":{
+
+         }
+      },
+      {
+         "name":"devrobo",
+         "vhost":"logs",
+         "durable":true,
+         "auto_delete":false,
+         "arguments":{
+
          }
       }
    ],
    "exchanges":[
       {
-         "name":"logging.application.serilog",
-         "vhost":"/",
+         "name":"advokat-api",
+         "vhost":"logs",
          "type":"topic",
          "durable":true,
          "auto_delete":false,
          "internal":false,
          "arguments":{
+
          }
       },
       {
-         "name":"logging.application.yuks-1",
-         "vhost":"/",
+         "name":"devrobo",
+         "vhost":"logs",
          "type":"topic",
          "durable":true,
          "auto_delete":false,
          "internal":false,
          "arguments":{
+
+         }
+      },
+      {
+         "name":"dns-checker",
+         "vhost":"logs",
+         "type":"topic",
+         "durable":true,
+         "auto_delete":false,
+         "internal":false,
+         "arguments":{
+
          }
       }
    ],
    "bindings":[
       {
-         "source":"logging.application.serilog",
-         "vhost":"/",
-         "destination":"logstash-serilog",
+         "source":"advokat-api",
+         "vhost":"logs",
+         "destination":"advokat-api",
          "destination_type":"queue",
          "routing_key":"#.#.#",
          "arguments":{
+
          }
       },
       {
-         "source":"logging.application.yuks-1",
-         "vhost":"/",
-         "destination":"logstash-yuks-1",
+         "source":"devrobo",
+         "vhost":"logs",
+         "destination":"devrobo",
          "destination_type":"queue",
          "routing_key":"#.#.#",
          "arguments":{
+
+         }
+      },
+      {
+         "source":"dns-checker",
+         "vhost":"logs",
+         "destination":"dns-checker",
+         "destination_type":"queue",
+         "routing_key":"#.#.#",
+         "arguments":{
+
          }
       }
    ]
