@@ -26,9 +26,9 @@
       {
          "user":"logs",
          "vhost":"logs",
-         "configure":"(.-api|dns-checker)",
-         "write":"(.-api|dns-checker)",
-         "read":"(.-api|dns-checker)"
+         "configure":"(.-api|dns-checker|devrobo)",
+         "write":"(.-api|dns-checker|devrobo)",
+         "read":"(.-api|dns-checker|devrobo)"
       },
       {
          "user":"yuks",
