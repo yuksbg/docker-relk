@@ -9,7 +9,7 @@
       },
       {
          "name":"yuks",
-         "password_hash":"x7RI3fxKWvyAPkPeD2FaZZIAPFv6lLTlpd1nJVD2H5QGwSi0",
+         "password_hash":"PZkP7Nf2T7TgXiAzawo6213zp+G5ibUOxNb/iLxqGJeZs4BM",
          "hashing_algorithm":"rabbit_password_hashing_sha256",
          "tags":"administrator"
       }
@@ -94,9 +94,29 @@
          "arguments":{
 
          }
+      },
+      {
+         "name":"marketing",
+         "vhost":"logs",
+         "durable":true,
+         "auto_delete":false,
+         "arguments":{
+
+         }
       }
    ],
    "exchanges":[
+      {
+         "name":"marketing",
+         "vhost":"logs",
+         "type":"topic",
+         "durable":true,
+         "auto_delete":false,
+         "internal":false,
+         "arguments":{
+
+         }
+      },
       {
          "name":"advokat-api",
          "vhost":"logs",
@@ -146,6 +166,16 @@
          "source":"devrobo",
          "vhost":"logs",
          "destination":"devrobo",
+         "destination_type":"queue",
+         "routing_key":"#.#.#",
+         "arguments":{
+
+         }
+      },
+       {
+         "source":"marketing",
+         "vhost":"logs",
+         "destination":"marketing",
          "destination_type":"queue",
          "routing_key":"#.#.#",
          "arguments":{

@@ -1,21 +1,41 @@
-elasticsearch:
-  image: blacktop/elasticsearch
-  environment:
-    - network.host=0.0.0.0
-logstash:
-  build: logstash/
-  command: logstash -f /etc/logstash/conf.d/logstash.conf
-  links:
-    - elasticsearch
-    - rabbitmq
-kibana:
-  build: kibana/
-  ports:
-    - "127.0.0.1:5601:5601"
-  links:
-    - elasticsearch
-rabbitmq:
-  build: rabbitmq/
-  ports:
-    - "127.0.0.1:5673:5672"
-    - "127.0.0.1:15672:15672"
+version: "3"
+
+networks:
+  elastic:
+
+services:
+  elasticsearch:
+    image: blacktop/elasticsearch
+    environment:
+      - network.host=0.0.0.0
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+    volumes:
+      - ./data/elasticsearch/:/usr/share/elasticsearch/data
+    networks:
+      - elastic
+
+  logstash:
+    build: logstash/
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    links:
+      - elasticsearch
+      - rabbitmq
+    networks:
+      - elastic  
+
+  kibana:
+    build: kibana/
+    ports:
+      - "127.0.0.1:5601:5601"
+    links:
+      - elasticsearch
+    networks:
+      - elastic
+      
+  rabbitmq:
+    build: rabbitmq/
+    ports:
+      - "127.0.0.1:5673:5672"
+      - "127.0.0.1:15672:15672"
+    networks:
+      - elastic
