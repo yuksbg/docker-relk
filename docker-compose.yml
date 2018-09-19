@@ -1,4 +1,4 @@
-version: "3"
+version: "2.4"
 
 networks:
   elastic:
@@ -8,11 +8,12 @@ services:
     image: blacktop/elasticsearch
     environment:
       - network.host=0.0.0.0
-      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
     volumes:
       - ./data/elasticsearch/:/usr/share/elasticsearch/data
     networks:
       - elastic
+    mem_limit: 1000000000  
 
   logstash:
     build: logstash/
@@ -21,7 +22,8 @@ services:
       - elasticsearch
       - rabbitmq
     networks:
-      - elastic  
+      - elastic
+    mem_limit: 500000000      
 
   kibana:
     build: kibana/
@@ -31,7 +33,8 @@ services:
       - elasticsearch
     networks:
       - elastic
-      
+    mem_limit: 500000000  
+
   rabbitmq:
     build: rabbitmq/
     ports:
@@ -39,3 +42,4 @@ services:
       - "127.0.0.1:15672:15672"
     networks:
       - elastic
+    mem_limit: 500000000      
